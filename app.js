@@ -10,7 +10,11 @@ const expressServer = app.listen(3001)
 const io = socketio(expressServer)
 
 dotenv.config()
+app.use(express.static(path.join(__dirname, 'build')));
 
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 io.on("connect",(socket)=>{
     socket.on("userInput",async({userInput,gameId})=>{
