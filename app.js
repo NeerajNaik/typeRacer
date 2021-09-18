@@ -10,11 +10,7 @@ const expressServer = app.listen(3001)
 const io = socketio(expressServer)
 
 dotenv.config()
-app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 io.on("connect",(socket)=>{
     socket.on("userInput",async({userInput,gameId})=>{
@@ -154,4 +150,12 @@ const calculateWPM = (endTime,startTime,player)=>{
     const WPM = Math.floor(numOfWords/timeinMinutes)
     return WPM
 
+}
+
+if(process.env.NODE_ENV === 'production') {
+  // set static folder
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 }
