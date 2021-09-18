@@ -6,7 +6,7 @@ const dotenv = require("dotenv")
 const Game = require("./Models/Game")
 const QuoatableAPI = require("./QuoatableAPI")
 const app = express()
-const expressServer = app.listen(3001)
+const expressServer = app.listen(process.env.BACKEND_URL)
 const io = socketio(expressServer)
 
 dotenv.config()
